@@ -13,7 +13,8 @@ st.write(st.secrets)
 import os
 st.write(os.environ)
 st.write(redis._secrets)
-st.stop()
+st.write(redis._connection_name)
+#st.stop()
 # /XXX
 
 clicks1 = int(db.get('clicks1') or 0)
