@@ -13,7 +13,7 @@ import sys # XXX
 # REF: https://redis.readthedocs.io/en/stable/lock.html#module-redis.lock
 
 REDIS_OPTIONS = \
-"host port db password socket_timeout socket_connect_timeout socket_keepalive socket_keepalive_options connection_pool " \
+"from_url host port db password socket_timeout socket_connect_timeout socket_keepalive socket_keepalive_options connection_pool " \
 "unix_socket_path encoding encoding_errors charset errors decode_responses retry_on_timeout retry_on_error " \
 "ssl ssl_keyfile ssl_certfile ssl_cert_reqs ssl_ca_certs ssl_ca_path ssl_ca_data ssl_check_hostname ssl_password " \
 "ssl_validate_ocsp ssl_validate_ocsp_stapled ssl_ocsp_context ssl_ocsp_expected_cert max_connections " \
@@ -61,7 +61,7 @@ class RedisConnection(ExperimentalBaseConnection):
             elif k in self._secrets:
                 kw[k] = self._secrets[k]
         
-        print('_connect locals', locals(), file=sys.stderr) # XXX
+        print('_connect kw', kw, file=sys.stderr) # XXX
         # client instance
         if 'from_url' in kw:
             from_url = kw.pop('from_url')
