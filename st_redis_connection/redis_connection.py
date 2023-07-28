@@ -1,7 +1,6 @@
 from streamlit.connections import ExperimentalBaseConnection
 import redis
 import os
-import sys # XXX
 
 # REF: https://docs.streamlit.io/library/advanced-features/connecting-to-data
 # REF: https://experimental-connection.streamlit.app/Build_your_own
@@ -20,7 +19,7 @@ REDIS_OPTIONS = \
 "single_connection_client health_check_interval client_name username retry redis_connect_func credential_provider".split(' ')
 
 REDIS_CLUSTER_OPTIONS = \
-"host port startup_nodes cluster_error_retry_attempts retry require_full_coverage reinitialize_steps "\
+"from_url host port startup_nodes cluster_error_retry_attempts retry require_full_coverage reinitialize_steps "\
 "read_from_replicas dynamic_startup_nodes url address_remap".split(' ')
 
 REDIS_SENTINEL_OPTIONS = \
@@ -61,7 +60,6 @@ class RedisConnection(ExperimentalBaseConnection):
             elif k in self._secrets:
                 kw[k] = self._secrets[k]
         
-        print('_connect kw', kw, file=sys.stderr) # XXX
         # client instance
         if 'from_url' in kw:
             from_url = kw.pop('from_url')
