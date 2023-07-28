@@ -1,6 +1,7 @@
 from streamlit.connections import ExperimentalBaseConnection
 import redis
 import os
+import sys # XXX
 
 # REF: https://docs.streamlit.io/library/advanced-features/connecting-to-data
 # REF: https://experimental-connection.streamlit.app/Build_your_own
@@ -60,7 +61,7 @@ class RedisConnection(ExperimentalBaseConnection):
             elif k in self._secrets:
                 kw[k] = self._secrets[k]
         
-        print('_connect kw', kw) # XXX
+        print('_connect kw', kw, file=sys.stderr) # XXX
         # client instance
         if 'from_url' in kw:
             from_url = kw.pop('from_url')
