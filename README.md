@@ -96,7 +96,7 @@ st.metric('Views', cnt)
 
 ##### demo_app.py
 
-You can find live demo of this app [here](https://redis_connection_demo.streamlit.app/)
+You can find live demo of this app [here](https://redis-connection-demo.streamlit.app/)
 
 ```python
 # NOTE: for simplicity, this is far from being a good example of *how* to use Redis.
