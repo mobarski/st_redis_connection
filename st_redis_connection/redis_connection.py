@@ -61,7 +61,7 @@ class RedisConnection(ExperimentalBaseConnection):
             elif k in self._secrets:
                 kw[k] = self._secrets[k]
         
-        print('_connect kw', kw, file=sys.stderr) # XXX
+        print('_connect locals', locals(), file=sys.stderr) # XXX
         # client instance
         if 'from_url' in kw:
             from_url = kw.pop('from_url')
