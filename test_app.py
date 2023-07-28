@@ -8,15 +8,6 @@ N_CLICKS = 100 # number of clicks to enable the reset button
 redis = st.experimental_connection("redis", type=RedisConnection)
 db = redis.client()
 
-# XXX
-st.write(st.secrets)
-import os
-st.write(os.environ)
-st.write(redis._secrets)
-st.write(redis._connection_name)
-#st.stop()
-# /XXX
-
 clicks1 = int(db.get('clicks1') or 0)
 clicks2 = int(db.get('clicks2') or 0)
 views   = int(db.get('views')   or 1)
