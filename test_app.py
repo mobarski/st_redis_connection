@@ -3,11 +3,10 @@
 import streamlit as st
 from st_redis_connection import RedisConnection
 
-N_CLICKS = 10 # number of clicks to enable the reset button
+N_CLICKS = 100 # number of clicks to enable the reset button
 
-redis = st.experimental_connection("redis9", type=RedisConnection)
+redis = st.experimental_connection("redis", type=RedisConnection)
 db = redis.client()
-#db.select(9)
 
 clicks1 = int(db.get('clicks1') or 0)
 clicks2 = int(db.get('clicks2') or 0)
