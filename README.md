@@ -172,7 +172,7 @@ db = 3
 
 [connections.redis3_sen]
 type = "sentinel"
-sentinels = [("localhost", 26379)]
+sentinels = [["localhost", 26379]]
 password = "another-password"
 
 [connections.redis_cluster]
