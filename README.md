@@ -94,6 +94,59 @@ st.metric('Views', cnt)
 
 
 
+##### lua_scripting_app.py
+
+```python
+import streamlit as st
+from st_redis_connection import RedisConnection
+from random import randint
+
+redis = st.experimental_connection("redis_dev", type=RedisConnection)
+db = redis.client()
+
+# Lua Scripting example - atomic CTR calculation
+# REF: https://redis.readthedocs.io/en/latest/lua_scripting.html
+recalc_ctr = db.register_script("""
+local clicks = redis.call('INCRBY', KEYS[1], ARGV[1])
+local views  = redis.call('INCRBY', KEYS[2], ARGV[2])
+local ctr = 1000 * clicks / views
+redis.call('SET', KEYS[3], ctr)
+return ctr
+""")
+
+new_clicks = randint(0,5)
+new_views  = 5
+ctr = recalc_ctr(keys=['x:clicks','x:views','x:ctr'], args=[new_clicks, new_views])
+
+st.metric('CTR', ctr/1000)
+```
+
+
+
+##### pipeline_app.py
+
+```python
+import streamlit as st
+from st_redis_connection import RedisConnection
+from random import randint
+
+redis = st.experimental_connection("redis_dev", type=RedisConnection)
+db = redis.client()
+
+new_clicks = randint(0,5)
+new_views  = 5
+
+pipe = db.pipeline()
+pipe.incrby('x:clicks', new_clicks)
+pipe.incrby('x:views',  new_views)
+clicks,views = pipe.execute()
+
+ctr = clicks / views
+st.metric('CTR', ctr)
+```
+
+
+
 ##### demo_app.py
 
 You can find live demo of this app [here](https://redis-connection-demo.streamlit.app/)
@@ -141,7 +194,7 @@ c3.metric('total views', views)
 
 
 
-## Configuration Examples
+## Configuration examples
 
 
 
