@@ -25,8 +25,8 @@ REDIS_CLUSTER_OPTIONS = \
 REDIS_SENTINEL_OPTIONS = \
 "sentinels min_other_sentinels sentinel_kwargs".split(' ') + REDIS_OPTIONS
 
-TYPE_TO_CLIENT_CLASS = {'redis':redis.Redis, 'cluster':redis.RedisCluster, 'sentinel':redis.Sentinel}
-TYPE_TO_OPTIONS = {'redis':REDIS_OPTIONS, 'cluster':REDIS_CLUSTER_OPTIONS, 'sentinel':REDIS_SENTINEL_OPTIONS}
+MODE_TO_CLIENT_CLASS = {'redis':redis.Redis, 'cluster':redis.RedisCluster, 'sentinel':redis.Sentinel}
+MODE_TO_OPTIONS = {'redis':REDIS_OPTIONS, 'cluster':REDIS_CLUSTER_OPTIONS, 'sentinel':REDIS_SENTINEL_OPTIONS}
 
 # PARAMETERS PRIORITIES:
 # 1. function kwargs
@@ -40,18 +40,18 @@ class RedisConnection(ExperimentalBaseConnection):
         kw = kwargs.copy()
         
         # client type
-        if 'type' in kw:
-            typ = kw.pop('type')
-        elif f'{self._connection_name}_type' in os.environ:
-            typ = os.environ[f'{self._connection_name}_type']
-        elif 'type' in self._secrets:
-            typ = self._secrets['type']
+        if 'mode' in kw:
+            mode = kw.pop('mode')
+        elif f'{self._connection_name}_mode' in os.environ:
+            mode = os.environ[f'{self._connection_name}_mode']
+        elif 'mode' in self._secrets:
+            mode = self._secrets['mode']
         else:
-            typ = 'redis'
+            mode = 'redis'
         
         # kw parameters
-        client_class = TYPE_TO_CLIENT_CLASS[typ]
-        options = TYPE_TO_OPTIONS[typ]
+        client_class = MODE_TO_CLIENT_CLASS[mode]
+        options = MODE_TO_OPTIONS[mode]
         for k in options:
             if k in kw: continue
             k_env = f'{self._connection_name}_{k}'

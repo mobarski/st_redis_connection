@@ -66,7 +66,7 @@ Most important parameters:
 - `password` - user password
 - `db` - numeric id of the database (default: 0)
 - `from_url` - configuration passed via URL. More info [here](https://redis.readthedocs.io/en/latest/connections.html#redis.Redis.from_url)
-- `type` - Redis client type used in the connection:
+- `mode` - Redis client type used in the connection:
   - `redis` (default) - redis.Redis
   - `sentinel` - redis.Sentinel
   - `cluster` - redis.RedisCluster
@@ -224,12 +224,12 @@ password = "password-for-this-instance"
 db = 3
 
 [connections.redis3_sen]
-type = "sentinel"
+mode = "sentinel"
 sentinels = [["localhost", 26379]]
 password = "another-password"
 
 [connections.redis_cluster]
-type = "cluster"
+mode = "cluster"
 ```
 
 
